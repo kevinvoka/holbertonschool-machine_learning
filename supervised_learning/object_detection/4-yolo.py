@@ -197,6 +197,6 @@ class Yolo:
                 images: list of images as numpy.ndarrays
                 image_paths: list of paths to the individual images
         """
-        image_paths = glob.glob(folder_path + '/*')
+        image_paths = sorted(glob.glob(folder_path + '/*'))
         images = [cv2.imread(path) for path in image_paths]
         return images, image_paths

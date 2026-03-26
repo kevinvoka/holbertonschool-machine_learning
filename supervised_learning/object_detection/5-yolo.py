@@ -197,7 +197,7 @@ class Yolo:
                 images: list of images as numpy.ndarrays
                 image_paths: list of paths to the individual images
         """
-        image_paths = glob.glob(folder_path + '/*')
+        image_paths = sorted(glob.glob(folder_path + '/*'))
         images = [cv2.imread(path) for path in image_paths]
         return images, image_paths
 
@@ -216,21 +216,22 @@ class Yolo:
                 image_shapes: numpy.ndarray of shape (ni, 2) containing
                     original height and width of each image
         """
-        input_h = self.model.input.shape[1]
-        input_w = self.model.input.shape[2]
+        input_h = int(self.model.input.shape[1])
+        input_w = int(self.model.input.shape[2])
 
         pimages = []
         image_shapes = []
 
         for image in images:
             image_shapes.append(image.shape[:2])
+            img = image.astype(np.float32) / 255.0
             resized = cv2.resize(
-                image / 255.0, (input_w, input_h),
+                img, (input_w, input_h),
                 interpolation=cv2.INTER_CUBIC
             )
             pimages.append(resized)
 
-        pimages = np.array(pimages)
+        pimages = np.array(pimages, dtype=np.float32)
         image_shapes = np.array(image_shapes)
 
         return pimages, image_shapes
