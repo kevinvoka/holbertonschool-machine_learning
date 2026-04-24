@@ -62,4 +62,4 @@ def tf_idf(sentences, vocab=None):
     norms[norms == 0] = 1
     embeddings = embeddings / norms
 
-    return embeddings, features
+    return embeddings, np.array(features)
