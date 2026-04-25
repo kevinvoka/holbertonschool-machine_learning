@@ -29,12 +29,9 @@ def gensim_to_keras(model):
         model.wv.expandos[attr] = values[order]
 
     weights = model.wv.vectors
-    vocab_size, vector_size = weights.shape
-    embedding_layer = tf.keras.layers.Embedding(
-        input_dim=vocab_size,
-        output_dim=vector_size,
+    return tf.keras.layers.Embedding(
+        input_dim=weights.shape[0],
+        output_dim=weights.shape[1],
+        weights=[weights],
         trainable=True
     )
-    embedding_layer.build((None,))
-    embedding_layer.set_weights([weights])
-    return embedding_layer
