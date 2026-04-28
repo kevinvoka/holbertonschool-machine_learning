@@ -31,6 +31,7 @@ def fasttext_model(sentences, vector_size=100, min_count=5, negative=5,
         sg=sg,
         epochs=epochs,
         seed=seed,
+        sorted_vocab=0,
         workers=workers
     )
     return model
