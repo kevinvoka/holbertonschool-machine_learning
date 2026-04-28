@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Train a gensim FastText model."""
-from gensim.models import FastText
+import gensim
 
 
 def fasttext_model(sentences, vector_size=100, min_count=5, negative=5,
@@ -22,12 +22,13 @@ def fasttext_model(sentences, vector_size=100, min_count=5, negative=5,
         the trained model.
     """
     sg = 0 if cbow else 1
-    model = FastText(
+    model = gensim.models.FastText(
         sentences=sentences,
         vector_size=vector_size,
         min_count=min_count,
         negative=negative,
         window=window,
+        sample=1e-5,
         sg=sg,
         epochs=epochs,
         seed=seed,
